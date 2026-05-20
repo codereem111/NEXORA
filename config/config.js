@@ -45,16 +45,50 @@ const CONFIG = {
 
   // Routes
   routes: {
-    home: "/index.html",
-    login: "/pages/login.html",
-    dashboard: "/pages/dashboard.html",
-    gallery: "/pages/gallery.html",
-    admin: "/pages/admin.html",
-    accessDenied: "/index.html",
-    adminUsers: "/pages/admin-users.html",
-    adminLogs: "/pages/admin-logs.html",
+    home: "index.html",
+    login: "pages/login.html",
+    dashboard: "pages/dashboard.html",
+    gallery: "pages/gallery.html",
+    admin: "pages/admin.html",
+    accessDenied: "index.html",
+    adminUsers: "pages/admin-users.html",
+    adminLogs: "pages/admin-logs.html",
   },
 };
+
+function getAppRootPath() {
+  if (typeof window === 'undefined') {
+    return '/';
+  }
+
+  const pathname = window.location.pathname || '/';
+  const pagesIndex = pathname.indexOf('/pages/');
+  if (pagesIndex >= 0) {
+    return pathname.substring(0, pagesIndex + 1);
+  }
+
+  if (pathname.endsWith('/')) {
+    return pathname;
+  }
+
+  const lastSlash = pathname.lastIndexOf('/');
+  if (lastSlash >= 0) {
+    return pathname.substring(0, lastSlash + 1);
+  }
+
+  return '/';
+}
+
+function normalizeRoute(route) {
+  return route.replace(/^\/+/g, '');
+}
+
+(function normalizeRoutes() {
+  const basePath = getAppRootPath();
+  Object.keys(CONFIG.routes).forEach((key) => {
+    CONFIG.routes[key] = `${basePath}${normalizeRoute(CONFIG.routes[key])}`;
+  });
+})();
 
 // Freeze config to prevent accidental modifications
 Object.freeze(CONFIG);

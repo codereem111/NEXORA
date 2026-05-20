@@ -5,6 +5,7 @@
 
 import AuthService from '../../services/auth.js';
 import RouteGuard from '../../services/guards.js';
+import CONFIG from '../../config/config.js';
 import { Toast, Dropdown } from './ui.js';
 
 class App {
@@ -50,7 +51,7 @@ class App {
               approved &&
               window.location.pathname.endsWith('/pages/login.html')
             ) {
-              window.location.href = '/pages/dashboard.html';
+              window.location.href = CONFIG.routes.dashboard;
               return;
             }
 
@@ -68,7 +69,7 @@ class App {
         }
       } else if (event === 'SIGNED_OUT') {
         console.log('[Auth Event] User signed out');
-        window.location.href = '/pages/login.html';
+        window.location.href = CONFIG.routes.login;
       }
     });
   }
@@ -89,7 +90,7 @@ class App {
     document.querySelectorAll('[data-home]').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
-        window.location.href = '/index.html';
+        window.location.href = CONFIG.routes.home;
       });
     });
 
@@ -180,7 +181,7 @@ class App {
       if (error) throw error;
 
       Toast.success('Logged out successfully');
-      window.location.href = '/index.html';
+      window.location.href = CONFIG.routes.home;
     } catch (error) {
       console.error('[Logout Error]', error);
       Toast.error('Logout failed');

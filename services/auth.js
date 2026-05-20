@@ -4,6 +4,7 @@
  */
 
 import { supabase } from './supabase.js';
+import CONFIG from '../config/config.js';
 import ActivityLogger from '../utils/logger.js';
 import { validateEmail } from '../utils/helpers.js';
 
@@ -38,7 +39,7 @@ class AuthService {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/pages/dashboard.html`,
+          emailRedirectTo: `${window.location.origin}${CONFIG.routes.dashboard}`,
         },
       });
 
@@ -413,7 +414,7 @@ class AuthService {
       }
 
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/pages/login.html`,
+        redirectTo: `${window.location.origin}${CONFIG.routes.login}`,
       });
 
       if (error) {
