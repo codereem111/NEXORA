@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - CPE Nexora</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  <link rel="icon" href="/assets/images/nexora-logo.svg" type="image/svg+xml">
+  
+  <style>
+    .signup-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      animation: fadeIn 0.5s ease-out;
+      padding: 1rem;
+    }
+
+    .signup-box {
+      width: 100%;
+      max-width: 450px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      animation: slideInUp 0.5s ease-out;
+    }
+
+    .signup-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .signup-logo {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .signup-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #00f9ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .signup-subtitle {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      margin-bottom: 0.5rem;
+    }
+
+    .signup-button {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .signup-footer {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.875rem;
+    }
+
+    .signup-footer a {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .signup-divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .password-requirements {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .requirement {
+      margin: 0.25rem 0;
+    }
+
+    .requirement.met {
+      color: #10b981;
+    }
+
+    @media (max-width: 480px) {
+      .signup-box {
+        padding: 1.5rem;
+      }
+
+      .signup-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-box">
+      <div class="signup-header">
+        <img src="/assets/images/nexora-logo.svg" alt="CPE Nexora logo" class="app-logo">
+        <h1 class="signup-title" style="display: inline-block;">CPE Nexora</h1>
+        <p class="signup-subtitle">Create your secure access profile</p>
+      </div>
+
+      <form id="signup-form">
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            placeholder="Enter your email"
+            required
+          >
+          <small style="color: rgba(255, 255, 255, 0.5);">We'll verify this email</small>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            id="password" 
+            placeholder="Enter password"
+            required
+          >
+          <div class="password-requirements">
+            <div class="requirement" id="req-length">✓ At least 6 characters</div>
+            <div class="requirement" id="req-uppercase">✓ One uppercase letter (optional)</div>
+            <div class="requirement" id="req-number">✓ One number (optional)</div>
+          </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            id="confirm-password" 
+            placeholder="Confirm password"
+            required
+          >
+        </div>
+
+        <!-- Terms -->
+        <div class="form-check" style="margin-bottom: 1.5rem;">
+          <input type="checkbox" class="form-check-input" id="terms" required />
+          <label class="form-check-label" for="terms">
+            I agree that an admin will review my account before approval.
+          </label>
+        </div>
+
+        <!-- Sign Up Button -->
+        <button type="submit" class="btn btn-primary signup-button">
+          Create Account
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="signup-divider">─────────────────</div>
+
+      <!-- Footer -->
+      <div class="signup-footer">
+        Already have an account? <br>
+        <a href="/login">Sign in here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script type="module">
+    import AuthService from '/services/auth.js';
+    import { Toast, FormValidator } from '/assets/js/ui.js';
+
+    const form = document.getElementById('signup-form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const termsCheckbox = document.getElementById('terms');
+
+    // Password strength indicators
+    passwordInput.addEventListener('input', (e) => {
+      const password = e.target.value;
+      const lengthReq = document.getElementById('req-length');
+      const uppercaseReq = document.getElementById('req-uppercase');
+      const numberReq = document.getElementById('req-number');
+
+      if (password.length >= 6) {
+        lengthReq.classList.add('met');
+      } else {
+        lengthReq.classList.remove('met');
+      }
+
+      if (/[A-Z]/.test(password)) {
+        uppercaseReq.classList.add('met');
+      } else {
+        uppercaseReq.classList.remove('met');
+      }
+
+      if (/[0-9]/.test(password)) {
+        numberReq.classList.add('met');
+      } else {
+        numberReq.classList.remove('met');
+      }
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      // Validate email
+      if (!FormValidator.validateEmail(email)) {
+        Toast.error('Please enter a valid email');
+        return;
+      }
+
+      // Validate password length
+      if (!FormValidator.validateMinLength(password, 6)) {
+        Toast.error('Password must be at least 6 characters');
+        return;
+      }
+
+      // Validate password match
+      if (password !== confirmPassword) {
+        Toast.error('Passwords do not match');
+        return;
+      }
+
+      // Validate terms
+      if (!termsCheckbox.checked) {
+        Toast.error('Please accept the terms');
+        return;
+      }
+
+      // Show loading state
+      const button = form.querySelector('button[type="submit"]');
+      button.classList.add('btn-loading');
+      button.disabled = true;
+
+      try {
+        // Attempt signup
+        const { user, error } = await AuthService.signup(email, password);
+
+        if (error) {
+          Toast.error(error);
+          alert(error);
+          return;
+        }
+
+        Toast.success('Account created! Waiting for admin approval...');
+
+        // Redirect to login after delay
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 2000);
+      } catch (error) {
+        console.error('[Signup Error]', error);
+        Toast.error('Signup failed. Please try again.');
+      } finally {
+        button.classList.remove('btn-loading');
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

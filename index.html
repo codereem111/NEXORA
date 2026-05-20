@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPE Nexora - Cyber-Encrypted Portal</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/nexora-logo.svg" type="image/svg+xml">
+
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" style="background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(30,41,59,0.98)); border-bottom: 1px solid rgba(99,102,241,0.2); position: sticky; top: 0; z-index: 100;">
+    <div class="container flex-between">
+      <div class="navbar-brand" style="background: linear-gradient(135deg, #00f9ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-flex; align-items: center;">
+        <img src="assets/images/nexora-logo.svg" alt="CPE Nexora logo" class="app-logo">
+        CPE Nexora
+      </div>
+      <div class="navbar-user">
+        <div data-auth-required class="hidden" style="display: flex; gap: 1rem; align-items: center;">
+          <span style="font-size: 0.875rem; color: rgba(255,255,255,0.7);" data-user-name>User</span>
+          <button class="btn btn-sm btn-outline" data-logout>Logout</button>
+        </div>
+        <div data-guest-only style="display: flex; gap: 0.5rem;">
+          <a href="/login" class="btn btn-sm btn-outline">Login</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 6rem 2rem; text-align: center; animation: fadeIn 0.8s ease-out;">
+    <div class="container">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div style="font-size: 3rem; margin-bottom: 1rem; animation: slideInDown 0.8s ease-out;">
+          💠
+        </div>
+        
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, #00f9ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: slideInDown 0.8s ease-out 0.2s both;">
+          CPE Nexora
+        </h1>
+        
+        <p style="font-size: 1.25rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem; animation: slideInUp 0.8s ease-out 0.3s both;">
+          Cyberpunk private portal for encrypted image management.
+        </p>
+
+        <p style="color: rgba(255,255,255,0.65); margin-bottom: 2rem; line-height: 1.8; animation: slideInUp 0.8s ease-out 0.4s both;">
+          A premium, secure experience for trusted collaborators and approved users.
+        </p>
+
+        <div data-guest-only style="display: flex; gap: 1rem; justify-content: center; animation: slideInUp 0.8s ease-out 0.5s both;">
+          <a href="/login" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+
+        <div data-auth-required class="hidden" style="display: flex; gap: 1rem; justify-content: center; animation: slideInUp 0.8s ease-out 0.5s both;">
+          <a href="/workspace" class="btn btn-primary btn-lg">Go to Workspace</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section style="padding: 6rem 2rem; background: rgba(255,255,255,0.02);">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 4rem;">Why Choose CPE Nexora?</h2>
+
+      <div class="grid grid-cols-3" style="margin-bottom: 3rem;">
+        <!-- Feature 1 -->
+        <div class="card hover-lift" style="animation: slideInLeft 0.8s ease-out;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔒</div>
+          <h3>Enterprise Security</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+            Military-grade encryption with private storage buckets and signed URLs for maximum protection.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card hover-lift" style="animation: slideInUp 0.8s ease-out 0.2s both;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">✨</div>
+          <h3>Premium UI</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+            Modern glassmorphism design with smooth animations and intuitive interface.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card hover-lift" style="animation: slideInRight 0.8s ease-out 0.4s both;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚡</div>
+          <h3>Lightning Fast</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+            Optimized performance with lazy loading and efficient caching strategies.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3">
+        <!-- Feature 4 -->
+        <div class="card hover-lift" style="animation: slideInLeft 0.8s ease-out 0.6s both;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
+          <h3>Admin Dashboard</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+            Comprehensive admin controls for user management and content moderation.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card hover-lift" style="animation: slideInUp 0.8s ease-out 0.8s both;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔐</div>
+          <h3>Role-Based Access</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+            Flexible permission system with admin and user roles for granular control.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card hover-lift" style="animation: slideInRight 0.8s ease-out 0.10s both;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📱</div>
+          <h3>Responsive Design</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+            Perfect on desktop, tablet, and mobile devices with adaptive layouts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: rgba(15,23,42,0.95); border-top: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; text-align: center; color: rgba(255,255,255,0.5);">
+    <div class="container">
+      <p>&copy; 2026 CPE Nexora. All rights reserved.</p>
+      <p style="font-size: 0.875rem; margin-top: 1rem;">
+        Built with security, elegance, and performance in mind.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

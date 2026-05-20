@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - CPE Nexora</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+  <link rel="icon" href="/assets/images/nexora-logo.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar mobile-hidden">
+      <div class="sidebar-brand">
+        <img src="/assets/images/nexora-logo.svg" alt="CPE Nexora logo" class="app-logo"> CPE Nexora
+        <button class="sidebar-close" type="button" data-sidebar-close aria-label="Close menu">✕ Cancel</button>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-section-title">Main</li>
+        
+        <li class="sidebar-item">
+          <a href="/" class="sidebar-link">
+            <span>🏠</span>
+            <span>Home</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="/workspace" class="sidebar-link">
+            <span>📊</span>
+            <span>Workspace</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link active">
+            <span>🖼️</span>
+            <span>Gallery</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" id="admin-menu" style="display: none;">
+          <a href="/admin" class="sidebar-link">
+            <span>⚙️</span>
+            <span>Admin Panel</span>
+          </a>
+        </li>
+
+        <li class="sidebar-section-title" style="margin-top: 2rem;">Settings</li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link" data-logout>
+            <span>🚪</span>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <button class="navbar-toggler" type="button" data-sidebar-open aria-label="Open menu">
+          ☰ Menu
+        </button>
+        <div class="navbar-brand">Gallery</div>
+
+        <div class="navbar-user">
+          <span style="font-size: 0.875rem; color: rgba(255,255,255,0.7);" data-user-name>User</span>
+          <div class="navbar-dropdown">
+            <div class="user-avatar" data-dropdown-toggle="#user-menu" data-user-avatar>U</div>
+            <div class="navbar-dropdown-menu" id="user-menu">
+              <div class="dropdown-item" style="color: rgba(255,255,255,0.5); pointer-events: none; cursor: default;">
+                <small data-user-name>user@example.com</small>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="/workspace" class="dropdown-item">Workspace</a>
+              <a href="/admin" class="dropdown-item" id="admin-link" style="display: none;">Admin Panel</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-logout>Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <div class="page-content">
+        <div class="page-header">
+          <h1 class="page-title animate-slide-in-down">Shared Gallery</h1>
+          <p class="page-subtitle animate-slide-in-down" style="animation-delay: 0.1s;">
+            View and explore all shared uploaded images
+          </p>
+        </div>
+
+        <!-- Upload Section -->
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; animation: slideInUp 0.5s ease-out 0.2s both;">
+          <h2 style="margin-bottom: 1.5rem;">Upload to Your Vault</h2>
+
+          <div class="upload-area" id="upload-area">
+            <div class="upload-icon">📤</div>
+            <div class="upload-text">Drag and drop images here</div>
+            <div class="upload-subtext">or click to select files</div>
+            <input 
+              type="file" 
+              id="file-input" 
+              multiple 
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              style="display: none;"
+            >
+          </div>
+
+          <div style="margin-top: 1rem; font-size: 0.875rem; color: rgba(255,255,255,0.55);">
+            ℹ️ Supported formats: JPG, PNG, WebP, GIF • Max 10MB per file
+          </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div style="animation: fadeIn 0.5s ease-out 0.3s both;">
+          <h2 style="margin-bottom: 1.5rem;">Your Images</h2>
+          <div id="gallery-container" class="gallery-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: rgba(255,255,255,0.5);">
+              Loading gallery...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script type="module">
+    import AuthService from '/services/auth.js';
+    import RouteGuard from '/services/guards.js';
+    import UploadManager from '/assets/js/uploads.js';
+    import { Toast, Dropdown } from '/assets/js/ui.js';
+
+    // Guard route
+    await RouteGuard.guardApprovedRoute(window.location.href);
+
+    // Initialize UI
+    Dropdown.init();
+
+    // Initialize upload manager
+    const uploadManager = new UploadManager('#upload-area', '#file-input', '#gallery-container');
+    await uploadManager.init();
+
+    // Check if admin
+    const user = await AuthService.getCurrentUser();
+    if (user) {
+      const isAdmin = await AuthService.isUserAdmin(user.email);
+      if (isAdmin) {
+        document.getElementById('admin-menu').style.display = 'block';
+        document.getElementById('admin-link').href = '/admin';
+        document.getElementById('admin-link').style.display = 'block';
+      }
+    }
+  </script>
+
+  <script type="module" src="/assets/js/main.js"></script>
+</body>
+</html>

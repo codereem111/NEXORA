@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - CPE Nexora</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+  <link rel="icon" href="/assets/images/nexora-logo.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar mobile-hidden">
+      <div class="sidebar-brand">
+        <img src="/assets/images/nexora-logo.svg" alt="CPE Nexora logo" class="app-logo"> CPE Nexora Admin
+        <button class="sidebar-close" type="button" data-sidebar-close aria-label="Close menu">✕ Cancel</button>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-section-title">Admin</li>
+        
+        <li class="sidebar-item">
+          <a href="/workspace" class="sidebar-link">
+            <span>📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="/admin/approvals" class="sidebar-link">
+            <span>✓</span>
+            <span>Approvals</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link active" data-admin-nav="users">
+            <span>👥</span>
+            <span>Users</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link" data-admin-nav="images">
+            <span>🖼️</span>
+            <span>Images</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link" data-admin-nav="logs">
+            <span>📋</span>
+            <span>Activity Logs</span>
+          </a>
+        </li>
+
+        <li class="sidebar-section-title" style="margin-top: 2rem;">Settings</li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link" data-logout>
+            <span>🚪</span>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <button class="navbar-toggler" type="button" data-sidebar-open aria-label="Open menu">
+          ☰ Menu
+        </button>
+        <div class="navbar-brand">CPE Nexora Admin</div>
+
+        <div class="navbar-user">
+          <span style="font-size: 0.875rem; color: rgba(255,255,255,0.7);" data-user-name>Admin</span>
+          <div class="navbar-dropdown">
+            <div class="user-avatar" data-dropdown-toggle="#user-menu" data-user-avatar>A</div>
+            <div class="navbar-dropdown-menu" id="user-menu">
+              <div class="dropdown-item" style="color: rgba(255,255,255,0.5); pointer-events: none; cursor: default;">
+                <small data-user-name>admin@example.com</small>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="/workspace" class="dropdown-item">Workspace</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-logout>Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <div class="page-content">
+        <!-- Users Section -->
+        <div data-admin-section="users" class="active" style="animation: fadeIn 0.5s ease-out;">
+          <div class="page-header">
+            <h1 class="page-title">User Management</h1>
+            <p class="page-subtitle">Manage user access and permissions</p>
+          </div>
+
+          <div id="users-table" style="margin-bottom: 2rem;">
+            <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.5);">
+              Loading users...
+            </div>
+          </div>
+        </div>
+
+        <!-- Images Section -->
+        <div data-admin-section="images" style="display: none; animation: fadeIn 0.5s ease-out;">
+          <div class="page-header">
+            <h1 class="page-title">Image Management</h1>
+            <p class="page-subtitle">View and manage all uploaded images</p>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <input type="text" class="form-control" placeholder="Search images..." style="max-width: 300px;">
+          </div>
+
+          <div id="images-gallery" class="gallery-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: rgba(255,255,255,0.5);">
+              Loading images...
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Logs Section -->
+        <div data-admin-section="logs" style="display: none; animation: fadeIn 0.5s ease-out;">
+          <div class="page-header">
+            <h1 class="page-title">Activity Logs</h1>
+            <p class="page-subtitle">Track all user activities and system events</p>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 1.5rem;">
+            <div id="activity-logs">
+              <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.5);">
+                Loading activity logs...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script type="module">
+    import AuthService from '/services/auth.js';
+    import RouteGuard from '/services/guards.js';
+    import AdminDashboard from '/assets/js/admin.js';
+    import { Toast, Dropdown, FormValidator } from '/assets/js/ui.js';
+
+    // Guard route - admin only
+    await RouteGuard.guardAdminRoute(window.location.href);
+
+    // Initialize UI
+    Dropdown.init();
+
+    // Initialize admin dashboard
+    const admin = new AdminDashboard();
+    await admin.init();
+  </script>
+
+  <script type="module" src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/workspace", "destination": "/workspace/index.html" },
+    { "source": "/gallery", "destination": "/gallery/index.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/approvals", "destination": "/admin/approvals/index.html" },
+    { "source": "/login", "destination": "/login/index.html" },
+    { "source": "/signup", "destination": "/signup/index.html" },
+    { "source": "/access-denied", "destination": "/access-denied/index.html" }
+  ],
+  "redirects": [
+    { "source": "/pages/login.html", "destination": "/login", "permanent": true },
+    { "source": "/pages/signup.html", "destination": "/signup", "permanent": true },
+    { "source": "/pages/dashboard.html", "destination": "/workspace", "permanent": true },
+    { "source": "/pages/gallery.html", "destination": "/gallery", "permanent": true },
+    { "source": "/pages/admin.html", "destination": "/admin", "permanent": true },
+    { "source": "/pages/admin-approvals.html", "destination": "/admin/approvals", "permanent": true }
+  ]
+}
