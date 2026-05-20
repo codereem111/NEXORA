@@ -90,7 +90,7 @@ class RouteGuard {
    */
   static async guardApprovedRoute(
     currentPage,
-    redirectTo = CONFIG.routes.accessDenied
+    redirectTo = CONFIG.routes.home
   ) {
     const isAuth = await this.isAuthenticated();
     if (!isAuth) {

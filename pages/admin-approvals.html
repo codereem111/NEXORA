@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Approvals - CPE Nexora</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="icon" href="../assets/images/nexora-logo.svg" type="image/svg+xml">
+
+  <style>
+    /* User Approval Panel Specific Styles */
+    .approval-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+      animation: slideInUp 0.3s ease-out;
+    }
+
+    .approval-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .approval-card.pending {
+      border-left: 4px solid var(--warning);
+    }
+
+    .approval-card.approved {
+      border-left: 4px solid var(--success);
+      opacity: 0.7;
+    }
+
+    .approval-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-email {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .user-meta {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .approval-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .approval-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .approval-btn-approve {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+    }
+
+    .approval-btn-approve:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .approval-btn-reject {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .approval-btn-reject:hover {
+      background: rgba(239, 68, 68, 0.3);
+    }
+
+    .approval-btn-admin {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--primary);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .approval-btn-admin:hover {
+      background: rgba(99, 102, 241, 0.3);
+    }
+
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card-approval {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label-approval {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 0.75rem 1.5rem;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+      margin-bottom: -1px;
+    }
+
+    .filter-tab:hover {
+      color: white;
+    }
+
+    .filter-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .bulk-actions {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 1rem;
+    }
+
+    .bulk-actions-label {
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .approval-header {
+        flex-direction: column;
+      }
+
+      .approval-actions {
+        flex-direction: column;
+      }
+
+      .approval-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .stats-section {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-tabs {
+        flex-direction: column;
+        border-bottom: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .filter-tab {
+        border-bottom: none;
+        border-right: 2px solid transparent;
+        margin-bottom: 0;
+        margin-right: -1px;
+      }
+
+      .filter-tab.active {
+        border-right-color: var(--primary);
+        border-bottom: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar mobile-hidden">
+      <div class="sidebar-brand">
+        <img src="../assets/images/nexora-logo.svg" alt="CPE Nexora logo" class="app-logo"> CPE Nexora Admin
+        <button class="sidebar-close" type="button" data-sidebar-close aria-label="Close menu">✕ Cancel</button>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-section-title">Admin</li>
+        
+        <li class="sidebar-item">
+          <a href="dashboard.html" class="sidebar-link">
+            <span>📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link active">
+            <span>✓</span>
+            <span>Approvals</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="admin.html" class="sidebar-link">
+            <span>⚙️</span>
+            <span>Admin Panel</span>
+          </a>
+        </li>
+
+        <li class="sidebar-section-title" style="margin-top: 2rem;">Settings</li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link" data-logout>
+            <span>🚪</span>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <button class="navbar-toggler" type="button" data-sidebar-open aria-label="Open menu">
+          ☰ Menu
+        </button>
+        <div class="navbar-brand">CPE Nexora Approvals</div>
+
+        <div class="navbar-user">
+          <span style="font-size: 0.875rem; color: rgba(255,255,255,0.7);" data-user-name>Admin</span>
+          <div class="navbar-dropdown">
+            <div class="user-avatar" data-dropdown-toggle="#user-menu" data-user-avatar>A</div>
+            <div class="navbar-dropdown-menu" id="user-menu">
+              <div class="dropdown-item" style="color: rgba(255,255,255,0.5); pointer-events: none; cursor: default;">
+                <small data-user-name>admin@example.com</small>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="dashboard.html" class="dropdown-item">Dashboard</a>
+              <a href="admin.html" class="dropdown-item">Admin Panel</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-logout>Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <div class="page-content">
+        <!-- Header -->
+        <div class="page-header">
+          <h1 class="page-title animate-slide-in-down">User Approvals</h1>
+          <p class="page-subtitle animate-slide-in-down" style="animation-delay: 0.1s;">
+            Review new members for the CPE Nexora network
+          </p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-section" style="animation: slideInUp 0.5s ease-out 0.2s both;">
+          <div class="stat-card-approval">
+            <div class="stat-number" id="pending-count">0</div>
+            <div class="stat-label-approval">Pending Approvals</div>
+          </div>
+
+          <div class="stat-card-approval">
+            <div class="stat-number" id="approved-count">0</div>
+            <div class="stat-label-approval">Approved Users</div>
+          </div>
+
+          <div class="stat-card-approval">
+            <div class="stat-number" id="admin-count">0</div>
+            <div class="stat-label-approval">Admin Users</div>
+          </div>
+
+          <div class="stat-card-approval">
+            <div class="stat-number" id="total-count">0</div>
+            <div class="stat-label-approval">Total Users</div>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs" style="animation: slideInUp 0.5s ease-out 0.3s both;">
+          <button class="filter-tab active" data-filter="all">All Users</button>
+          <button class="filter-tab" data-filter="pending">Pending Review</button>
+          <button class="filter-tab" data-filter="approved">Approved</button>
+          <button class="filter-tab" data-filter="admin">Admins</button>
+        </div>
+
+        <!-- Approval List -->
+        <div id="approval-container" style="animation: fadeIn 0.5s ease-out 0.4s both;">
+          <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.5);">
+            Loading users...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script type="module">
+    import AuthService from '../services/auth.js';
+    import RouteGuard from '../services/guards.js';
+    import { supabase } from '../services/supabase.js';
+    import ActivityLogger from '../utils/logger.js';
+    import { formatDate } from '../utils/helpers.js';
+    import { Toast, ConfirmDialog, Dropdown } from '../assets/js/ui.js';
+
+    // Guard route - admin only
+    await RouteGuard.guardAdminRoute(window.location.href);
+
+    // Initialize UI
+    Dropdown.init();
+
+    // State
+    let users = [];
+    let filteredUsers = [];
+    let currentFilter = 'all';
+
+    // Initialize
+    async function init() {
+      try {
+        await loadUsers();
+        setupFilters();
+      } catch (error) {
+        console.error('[Init Error]', error);
+        Toast.error('Failed to initialize');
+      }
+    }
+
+    // Load users from database
+    async function loadUsers() {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        users = data || [];
+        updateStats();
+        applyFilter('all');
+      } catch (error) {
+        console.error('[Load Users Error]', error);
+        Toast.error('Failed to load users');
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const pending = users.filter(u => !u.approved).length;
+      const approved = users.filter(u => u.approved && u.role === 'user').length;
+      const admin = users.filter(u => u.role === 'admin').length;
+      const total = users.length;
+
+      document.getElementById('pending-count').textContent = pending;
+      document.getElementById('approved-count').textContent = approved;
+      document.getElementById('admin-count').textContent = admin;
+      document.getElementById('total-count').textContent = total;
+    }
+
+    // Setup filter buttons
+    function setupFilters() {
+      document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          applyFilter(btn.dataset.filter);
+        });
+      });
+    }
+
+    // Apply filter
+    function applyFilter(filter) {
+      currentFilter = filter;
+
+      switch (filter) {
+        case 'pending':
+          filteredUsers = users.filter(u => !u.approved);
+          break;
+        case 'approved':
+          filteredUsers = users.filter(u => u.approved && u.role === 'user');
+          break;
+        case 'admin':
+          filteredUsers = users.filter(u => u.role === 'admin');
+          break;
+        case 'all':
+        default:
+          filteredUsers = users;
+      }
+
+      renderUsers();
+    }
+
+    // Render users
+    function renderUsers() {
+      const container = document.getElementById('approval-container');
+
+      if (filteredUsers.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <div>No users to display</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+
+      filteredUsers.forEach((user, i) => {
+        const card = document.createElement('div');
+        card.className = `approval-card ${user.approved ? 'approved' : 'pending'}`;
+        card.style.animationDelay = `${i * 0.05}s`;
+
+        const statusBadge = user.approved 
+          ? '<span class="badge badge-success">✓ Approved</span>'
+          : '<span class="badge badge-warning">⏳ Pending</span>';
+
+        const roleBadge = user.role === 'admin'
+          ? '<span class="badge badge-primary" style="margin-left: 0.5rem;">👤 Admin</span>'
+          : '';
+
+        card.innerHTML = `
+          <div class="approval-header">
+            <div class="user-info">
+              <div class="user-email">${user.email}</div>
+              <div class="user-meta">
+                <span>${statusBadge}${roleBadge}</span>
+                <span>Joined: ${formatDate(user.created_at)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="approval-actions">
+            ${!user.approved ? `
+              <button class="approval-btn approval-btn-approve" onclick="approveUser('${user.id}', '${user.email}')">
+                ✓ Approve
+              </button>
+              <button class="approval-btn approval-btn-reject" onclick="rejectUser('${user.id}', '${user.email}')">
+                ✕ Reject
+              </button>
+            ` : ''}
+            ${user.role === 'user' ? `
+              <button class="approval-btn approval-btn-admin" onclick="makeAdmin('${user.id}', '${user.email}')">
+                👤 Make Admin
+              </button>
+            ` : `
+              <button class="approval-btn approval-btn-admin" onclick="removeAdmin('${user.id}', '${user.email}')">
+                👤 Remove Admin
+              </button>
+            `}
+            ${user.approved ? `
+              <button class="approval-btn approval-btn-reject" onclick="revokeUser('${user.id}', '${user.email}')">
+                🔒 Revoke
+              </button>
+            ` : ''}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Approve user
+    window.approveUser = function(userId, email) {
+      ConfirmDialog.show(
+        `Approve ${email}?`,
+        async () => {
+          try {
+            const { error } = await supabase
+              .from('users')
+              .update({ approved: true })
+              .eq('id', userId);
+
+            if (error) throw error;
+
+            await ActivityLogger.logUserApproval(email, true);
+            Toast.success(`Approved ${email}`);
+            await loadUsers();
+          } catch (error) {
+            console.error('[Approve Error]', error);
+            Toast.error('Failed to approve user');
+          }
+        }
+      );
+    };
+
+    // Reject user
+    window.rejectUser = function(userId, email) {
+      ConfirmDialog.show(
+        `Reject ${email}? They will not be able to access.`,
+        async () => {
+          try {
+            const { error } = await supabase
+              .from('users')
+              .delete()
+              .eq('id', userId);
+
+            if (error) throw error;
+
+            Toast.success(`Rejected ${email}`);
+            await loadUsers();
+          } catch (error) {
+            console.error('[Reject Error]', error);
+            Toast.error('Failed to reject user');
+          }
+        }
+      );
+    };
+
+    // Make admin
+    window.makeAdmin = function(userId, email) {
+      ConfirmDialog.show(
+        `Make ${email} an admin? They'll have full system access.`,
+        async () => {
+          try {
+            const { error } = await supabase
+              .from('users')
+              .update({ role: 'admin' })
+              .eq('id', userId);
+
+            if (error) throw error;
+
+            await ActivityLogger.logUserRoleChange(email, 'admin');
+            Toast.success(`Made ${email} an admin`);
+            await loadUsers();
+          } catch (error) {
+            console.error('[Make Admin Error]', error);
+            Toast.error('Failed to make admin');
+          }
+        }
+      );
+    };
+
+    // Remove admin
+    window.removeAdmin = function(userId, email) {
+      ConfirmDialog.show(
+        `Remove admin privileges from ${email}?`,
+        async () => {
+          try {
+            const { error } = await supabase
+              .from('users')
+              .update({ role: 'user' })
+              .eq('id', userId);
+
+            if (error) throw error;
+
+            await ActivityLogger.logUserRoleChange(email, 'user');
+            Toast.success(`Removed admin from ${email}`);
+            await loadUsers();
+          } catch (error) {
+            console.error('[Remove Admin Error]', error);
+            Toast.error('Failed to remove admin');
+          }
+        }
+      );
+    };
+
+    // Revoke user
+    window.revokeUser = function(userId, email) {
+      ConfirmDialog.show(
+        `Revoke access for ${email}? They will be blocked.`,
+        async () => {
+          try {
+            const { error } = await supabase
+              .from('users')
+              .update({ approved: false })
+              .eq('id', userId);
+
+            if (error) throw error;
+
+            await ActivityLogger.logUserApproval(email, false);
+            Toast.success(`Revoked access for ${email}`);
+            await loadUsers();
+          } catch (error) {
+            console.error('[Revoke Error]', error);
+            Toast.error('Failed to revoke access');
+          }
+        }
+      );
+    };
+
+    // Auto-refresh every 10 seconds
+    setInterval(loadUsers, 10000);
+
+    // Initial load
+    init();
+  </script>
+
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

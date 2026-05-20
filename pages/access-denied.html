@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Denied - CPE Nexora</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="icon" href="../assets/images/nexora-logo.svg" type="image/svg+xml">
+  
+  <style>
+    .error-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .error-box {
+      text-align: center;
+      max-width: 500px;
+      animation: slideInUp 0.5s ease-out;
+    }
+
+    .error-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .error-code {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .error-title {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .error-message {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .error-box small {
+      display: block;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-box">
+      <div class="error-icon">🔒</div>
+      
+      <div class="error-code">Access Denied</div>
+      
+      <h1 class="error-title">Unauthorized Access</h1>
+      
+      <p class="error-message">
+        Your account does not have permission to access this resource. 
+        <br>
+        You may not be approved yet, or this action requires admin privileges.
+      </p>
+
+      <p class="error-message" style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.5);">
+        If you believe this is a mistake, please contact your administrator for assistance.
+      </p>
+
+      <div class="error-actions">
+        <a href="../index.html" class="btn btn-primary">Go Home</a>
+        <a href="login.html" class="btn btn-outline">Login Again</a>
+      </div>
+
+      <small>If you continue to experience issues, contact: support@cpenexora.app</small>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Redirect any direct access to the homepage.
+    window.location.href = '../index.html';
+  </script>
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

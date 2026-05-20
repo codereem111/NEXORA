@@ -45,14 +45,14 @@ const CONFIG = {
 
   // Routes
   routes: {
-    home: "/",
-    login: "/login",
-    dashboard: "/workspace",
-    gallery: "/gallery",
-    admin: "/admin",
-    accessDenied: "/access-denied",
-    adminUsers: "/admin/users",
-    adminLogs: "/admin/logs",
+    home: "/index.html",
+    login: "/pages/login.html",
+    dashboard: "/pages/dashboard.html",
+    gallery: "/pages/gallery.html",
+    admin: "/pages/admin.html",
+    accessDenied: "/index.html",
+    adminUsers: "/pages/admin-users.html",
+    adminLogs: "/pages/admin-logs.html",
   },
 };
 

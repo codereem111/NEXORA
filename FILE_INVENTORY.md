@@ -27,13 +27,13 @@
 
 | File | Purpose | Lines |
 |------|---------|-------|
-| `login/index.html` | User login page | 120 |
-| `signup/index.html` | User registration page | 250 |
-| `workspace/index.html` | User dashboard | 280 |
-| `gallery/index.html` | Image gallery with upload | 200 |
-| `admin/index.html` | Admin panel | 220 |
-| `admin/approvals/index.html` | Approvals page | 280 |
-| `access-denied/index.html` | Access denied page | 80 |
+| `pages/login.html` | User login page | 120 |
+| `pages/signup.html` | User registration page | 250 |
+| `pages/dashboard.html` | User dashboard | 280 |
+| `pages/gallery.html` | Image gallery with upload | 200 |
+| `pages/admin.html` | Admin panel | 220 |
+| `pages/admin-approvals.html` | Approvals page | 280 |
+| `pages/access-denied.html` | Access denied page | 80 |
 
 ### CSS Files (4 files)
 
@@ -97,12 +97,14 @@
 
 ### User Flows
 - Login: `pages/login.html`
+- Signup: `pages/signup.html`
 - Dashboard: `pages/dashboard.html`
 - Gallery: `pages/gallery.html`
 - Access Denied: `pages/access-denied.html`
 
 ### Admin Flow
 - Admin Panel: `pages/admin.html`
+- Approvals: `pages/admin-approvals.html`
 
 ### Backend Services
 - Authentication: `services/auth.js`

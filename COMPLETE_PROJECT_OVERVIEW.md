@@ -60,25 +60,21 @@ nexora/
 │
 ├── 📄 index.html                          (Landing page)
 ├── 📄 README.md                           (Documentation)
-├── 📄 GITHUB_DEPLOYMENT.md                (GitHub/Vercel guide)
+├── 📄 GITHUB_DEPLOYMENT.md                (GitHub Pages guide)
 ├── 📄 COMPLETE_PROJECT_OVERVIEW.md        (This file)
 ├── 📄 .env.example                        (Environment template)
 ├── 📄 supabase-setup.sql                  (Database schema)
+├── 📄 .gitignore                          (Git ignore rules)
+├── 📄 .nojekyll                           (Disable Jekyll processing)
 │
-├── 📁 login/
-│   └── index.html                         (Login page)
-├── 📁 signup/
-│   └── index.html                         (Signup page)
-├── 📁 workspace/
-│   └── index.html                         (User dashboard)
-├── 📁 gallery/
-│   └── index.html                         (Image gallery)
-├── 📁 admin/
-│   └── index.html                         (Admin panel)
-├── 📁 admin/approvals/
-│   └── index.html                         (Approvals page)
-├── 📁 access-denied/
-│   └── index.html                         (Access denied page)
+├── 📁 pages/
+│   ├── login.html                         (Login page)
+│   ├── signup.html                        (Signup page)
+│   ├── dashboard.html                     (User dashboard)
+│   ├── gallery.html                       (Image gallery)
+│   ├── admin.html                         (Admin panel)
+│   ├── admin-approvals.html               (Approvals page)
+│   └── access-denied.html                 (Access denied page)
 │
 ├── 📁 assets/
 │   │
@@ -353,15 +349,15 @@ storage.bucket = 'secure-uploads'
 storage.maxFileSize = 10MB
 storage.allowedTypes = [images]
 
-// Routes - Clean URLs for Vercel
-routes.home = '/'
-routes.login = '/login'
-routes.signup = '/signup'
-routes.dashboard = '/workspace'
-routes.gallery = '/gallery'
-routes.admin = '/admin'
-routes.adminApprovals = '/admin/approvals'
-routes.accessDenied = '/access-denied'
+// Routes - File-based URLs for GitHub Pages compatibility
+routes.home = '/index.html'
+routes.login = '/pages/login.html'
+routes.signup = '/pages/signup.html'
+routes.dashboard = '/pages/dashboard.html'
+routes.gallery = '/pages/gallery.html'
+routes.admin = '/pages/admin.html'
+routes.adminApprovals = '/pages/admin-approvals.html'
+routes.accessDenied = '/index.html'
 ```
 
 ### Environment Variables

@@ -126,24 +126,31 @@ git push origin --tags
 git tag -l
 ```
 
-## ⚠️ Important: Disable GitHub Pages
+## ⚠️ Deployment Platform Compatibility
 
-**Do NOT use GitHub Pages for deployment.** This project uses clean URLs (`/workspace`, `/login`, `/gallery`, etc.) which require a special server configuration. 
+### GitHub Pages (✅ NOW SUPPORTED)
 
-### Disable GitHub Pages in Your Repository:
+This project is **fully compatible with GitHub Pages**. The file-based URL structure (`/pages/login.html`, `/pages/dashboard.html`, etc.) works natively with GitHub Pages.
+
+### Setup GitHub Pages:
 
 1. Go to your GitHub repository
 2. Click **Settings** → **Pages** (in the left sidebar)
-3. Under "Source", select **None** (or leave it disabled)
-4. This prevents GitHub Pages from conflicting with Vercel
+3. Under "Source", select **Deploy from a branch**
+4. Select branch: **main** and folder: **/ (root)**
+5. Click "Save"
 
-**Why?** GitHub Pages is a static file server and doesn't support clean URL routing. Use **Vercel** instead (see next section).
+Your app will be deployed to: `https://YOUR_USERNAME.github.io/nexora`
 
 ---
 
-## 🚀 Deploy to Vercel from GitHub
+## Alternative Platforms
 
-### Step 1: Connect GitHub to Vercel
+### Vercel (✅ Better Performance)
+
+Vercel offers superior performance with automatic deployments and instant preview URLs. If desired, you can still use Vercel instead of GitHub Pages for even faster load times.
+
+### Deploy to Vercel from GitHub
 
 1. Go to [vercel.com](https://vercel.com)
 2. Sign up with GitHub

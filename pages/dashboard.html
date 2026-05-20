@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - CPE Nexora</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="icon" href="../assets/images/nexora-logo.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar mobile-hidden">
+      <div class="sidebar-brand">
+        <img src="../assets/images/nexora-logo.svg" alt="CPE Nexora logo" class="app-logo"> CPE Nexora
+        <button class="sidebar-close" type="button" data-sidebar-close aria-label="Close menu">✕ Cancel</button>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-section-title">Main</li>
+        
+        <li class="sidebar-item">
+          <a href="../index.html" class="sidebar-link">
+            <span>🏠</span>
+            <span>Home</span>
+          </a>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link active" data-nav-item="dashboard">
+            <span>📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a href="gallery.html" class="sidebar-link" data-nav-item="gallery">
+            <span>🖼️</span>
+            <span>Gallery</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" id="admin-menu" style="display: none;">
+          <a href="admin-approvals.html" class="sidebar-link">
+            <span>✓</span>
+            <span>Approvals</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" id="admin-menu2" style="display: none;">
+          <a href="admin.html" class="sidebar-link">
+            <span>⚙️</span>
+            <span>Admin Panel</span>
+          </a>
+        </li>
+
+        <li class="sidebar-section-title" style="margin-top: 2rem;">Settings</li>
+
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link" data-logout>
+            <span>🚪</span>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <button class="navbar-toggler" type="button" data-sidebar-open aria-label="Open menu">
+          ☰ Menu
+        </button>
+        <div class="navbar-brand">Dashboard</div>
+
+        <div class="navbar-user">
+          <span class="navbar-user-email" data-user-name>User</span>
+          <div class="navbar-dropdown">
+            <div class="user-avatar" data-dropdown-toggle="#user-menu" data-user-avatar>U</div>
+            <div class="navbar-dropdown-menu" id="user-menu">
+              <div class="dropdown-item" style="color: rgba(255,255,255,0.5); pointer-events: none; cursor: default;">
+                <small data-user-name>user@example.com</small>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="gallery.html" class="dropdown-item">View Gallery</a>
+              <a href="#" class="dropdown-item" id="admin-link" style="display: none;">Admin Panel</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" data-logout>Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <div class="page-content">
+        <div class="page-header">
+          <h1 class="page-title animate-slide-in-down">Welcome Back </h1>
+          <p class="page-subtitle animate-slide-in-down" style="animation-delay: 0.1s;">
+            Command your private cyber archive with confidence
+          </p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Images</div>
+            <div class="stat-value" id="stat-images">0</div>
+            <div class="stat-change">All uploads</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Storage Used</div>
+            <div class="stat-value" id="stat-storage">0 B</div>
+            <div class="stat-change">Out of 5 GB</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Account Status</div>
+            <div class="stat-value" style="font-size: 1rem; color: #10b981;">✓ Approved</div>
+            <div class="stat-change">Active</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; animation: slideInUp 0.5s ease-out 0.3s both;">
+          <h2 style="margin-bottom: 1.5rem;">Quick Actions</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+            <a href="gallery.html" class="card" style="background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2)); border: 1px solid rgba(99,102,241,0.3); padding: 1.5rem; text-align: center; text-decoration: none; color: white; transition: all 0.3s ease; cursor: pointer;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🖼️</div>
+              <div style="font-weight: 600;">Gallery Vault</div>
+            </a>
+
+            <a href="gallery.html" class="card" style="background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(34,197,94,0.2)); border: 1px solid rgba(16,185,129,0.3); padding: 1.5rem; text-align: center; text-decoration: none; color: white; transition: all 0.3s ease; cursor: pointer;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">⬆️</div>
+              <div style="font-weight: 600;">Upload to Vault</div>
+            </a>
+
+            <div class="card" style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(96,165,250,0.2)); border: 1px solid rgba(59,130,246,0.3); padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s ease;" id="help-card">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">❓</div>
+              <div style="font-weight: 600;">Help & Support</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; animation: slideInUp 0.5s ease-out 0.4s both;">
+          <h2 style="margin-bottom: 1.5rem;">Recent Activity</h2>
+          
+          <div id="activity-feed" style="max-height: 400px; overflow-y: auto;">
+            <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.5);">
+              Loading activity...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script type="module">
+    import AuthService from '../services/auth.js';
+    import RouteGuard from '../services/guards.js';
+    import UploadService from '../services/uploads.js';
+    import { supabase } from '../services/supabase.js';
+    import { Toast } from '../assets/js/ui.js';
+
+    // Guard route
+    await RouteGuard.guardApprovedRoute(window.location.href);
+
+    // Initialize
+    async function initDashboard() {
+      try {
+        const user = await AuthService.getCurrentUser();
+        if (!user) throw new Error('Not authenticated');
+
+        // Check if admin
+        const isAdmin = await AuthService.isUserAdmin(user.email);
+        if (isAdmin) {
+          document.getElementById('admin-menu').style.display = 'block';
+          document.getElementById('admin-menu2').style.display = 'block';
+          document.getElementById('admin-link').style.display = 'block';
+        }
+
+        // Load stats
+        const images = await UploadService.getGalleryImages();
+        const imageCount = images?.length || 0;
+        const totalSize = images?.reduce((sum, img) => sum + (img.file_size || 0), 0) || 0;
+
+        document.getElementById('stat-images').textContent = imageCount;
+        document.getElementById('stat-storage').textContent = formatFileSize(totalSize);
+
+        // Load activity (last 10 items)
+        const { data: logs } = await supabase
+          .from('activity_logs')
+          .select('*')
+          .eq('user_email', user.email)
+          .order('timestamp', { ascending: false })
+          .limit(10);
+
+        renderActivity(logs || []);
+
+        // Setup navigation and mobile menu behavior
+        setupNavigation();
+
+      } catch (error) {
+        console.error('[Dashboard Init Error]', error);
+        Toast.error('Failed to load dashboard');
+      }
+    }
+
+    function renderActivity(logs) {
+      const feed = document.getElementById('activity-feed');
+
+      if (logs.length === 0) {
+        feed.innerHTML = `
+          <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.5);">
+            No activity yet
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      logs.forEach((log, i) => {
+        const icon = getActivityIcon(log.action);
+        html += `
+          <div class="activity-item" style="animation: slideInUp 0.3s ease-out ${i * 0.05}s both;">
+            <div class="activity-icon">${icon}</div>
+            <div class="activity-content">
+              <div class="activity-title">${log.action.replace(/_/g, ' ')}</div>
+              <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">
+                ${new Date(log.timestamp).toLocaleDateString()} ${new Date(log.timestamp).toLocaleTimeString()}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      feed.innerHTML = html;
+    }
+
+    function getActivityIcon(action) {
+      const icons = {
+        USER_LOGIN: '🔓',
+        USER_LOGOUT: '🔒',
+        IMAGE_UPLOAD: '📤',
+        IMAGE_DELETE: '🗑️',
+      };
+      return icons[action] || '•';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    function setupNavigation() {
+      const dropdownToggle = document.querySelector('[data-dropdown-toggle]');
+      const dropdownMenu = document.querySelector(dropdownToggle?.dataset?.dropdownToggle);
+      const logoutButtons = document.querySelectorAll('[data-logout]');
+
+      if (dropdownToggle && dropdownMenu) {
+        dropdownToggle.addEventListener('click', event => {
+          event.stopPropagation();
+          dropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', event => {
+          if (!dropdownMenu.contains(event.target) && !dropdownToggle.contains(event.target)) {
+            dropdownMenu.classList.remove('show');
+          }
+        });
+      }
+
+      document.querySelectorAll('[data-nav-item]').forEach(nav => {
+        const item = nav.dataset.navItem;
+        if (item === 'dashboard') nav.href = '#';
+        if (item === 'gallery') nav.href = 'gallery.html';
+      });
+
+      logoutButtons.forEach(button => {
+        button.addEventListener('click', async event => {
+          event.preventDefault();
+          await AuthService.logout();
+          window.location.href = 'login.html';
+        });
+      });
+    }
+
+    // Help card
+    document.getElementById('help-card').addEventListener('click', () => {
+      Toast.info('For support, contact your administrator');
+    });
+
+    initDashboard();
+  </script>
+
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

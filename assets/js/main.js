@@ -48,9 +48,9 @@ class App {
             const approved = await AuthService.isUserApproved(session.user.email);
             if (
               approved &&
-              (window.location.pathname.endsWith('/login') || window.location.pathname.endsWith('/login/') || window.location.pathname.endsWith('/login/index.html'))
+              window.location.pathname.endsWith('/pages/login.html')
             ) {
-              window.location.href = '/workspace';
+              window.location.href = '/pages/dashboard.html';
               return;
             }
 
@@ -68,7 +68,7 @@ class App {
         }
       } else if (event === 'SIGNED_OUT') {
         console.log('[Auth Event] User signed out');
-        window.location.href = '/login';
+        window.location.href = '/pages/login.html';
       }
     });
   }

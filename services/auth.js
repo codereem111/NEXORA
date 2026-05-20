@@ -38,7 +38,7 @@ class AuthService {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/workspace`,
+          emailRedirectTo: `${window.location.origin}/pages/dashboard.html`,
         },
       });
 
@@ -413,7 +413,7 @@ class AuthService {
       }
 
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/login`,
+        redirectTo: `${window.location.origin}/pages/login.html`,
       });
 
       if (error) {
