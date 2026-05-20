@@ -126,6 +126,21 @@ git push origin --tags
 git tag -l
 ```
 
+## ⚠️ Important: Disable GitHub Pages
+
+**Do NOT use GitHub Pages for deployment.** This project uses clean URLs (`/workspace`, `/login`, `/gallery`, etc.) which require a special server configuration. 
+
+### Disable GitHub Pages in Your Repository:
+
+1. Go to your GitHub repository
+2. Click **Settings** → **Pages** (in the left sidebar)
+3. Under "Source", select **None** (or leave it disabled)
+4. This prevents GitHub Pages from conflicting with Vercel
+
+**Why?** GitHub Pages is a static file server and doesn't support clean URL routing. Use **Vercel** instead (see next section).
+
+---
+
 ## 🚀 Deploy to Vercel from GitHub
 
 ### Step 1: Connect GitHub to Vercel

@@ -353,9 +353,15 @@ storage.bucket = 'secure-uploads'
 storage.maxFileSize = 10MB
 storage.allowedTypes = [images]
 
-// Routes
-routes.dashboard = '/pages/dashboard.html'
-routes.admin = '/pages/admin.html'
+// Routes - Clean URLs for Vercel
+routes.home = '/'
+routes.login = '/login'
+routes.signup = '/signup'
+routes.dashboard = '/workspace'
+routes.gallery = '/gallery'
+routes.admin = '/admin'
+routes.adminApprovals = '/admin/approvals'
+routes.accessDenied = '/access-denied'
 ```
 
 ### Environment Variables
